@@ -3,7 +3,7 @@ import unittest
 import gym
 import numpy as np
 import safety_gym
-
+import json
 
 class TestEnvLayout(unittest.TestCase):
 
@@ -16,7 +16,10 @@ class TestEnvLayout(unittest.TestCase):
         env1.seed(seed)  # Set the random seed for the env to be a fixed one!
         obs1 = env1.reset()
         obs2 = env1.reset()
-        np.testing.assert_almost_equal(obs1, obs2)
+        with open('tests/obs_es123.json', 'r') as f:
+            expect = json.load(f)
+        np.testing.assert_almost_equal(obs1, expect)
+        np.testing.assert_almost_equal(obs2, expect)
 
     def test_fixed_layout_multiple_envs_same_seed(self):
         '''Env layouts should be the same if initialize multiple envs
